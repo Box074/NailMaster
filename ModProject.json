@@ -1,0 +1,13 @@
+{
+  "ProjectName": "NailMaster",
+  "ModVersion": "0.0.0.0",
+  "CSharpVersion": "latest",
+  "CodeDir": ".\\Scripts\\",
+  "EmbeddedResourceDir": ".\\EmbeddedResource\\",
+  "EmbeddedResource": {},
+  "Guid": "28584bbd-bfed-4aad-b68d-c277ad24a200",
+  "DefaultNamespace": "",
+  "DependenciesDir": ".\\Dependencies\\",
+  "ModdingAPIVersion": "1.5.78.11833-67",
+  "WebDependencies": []
+}
