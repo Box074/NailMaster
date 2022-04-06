@@ -16,7 +16,6 @@ namespace NailMasterMod
     public class NailMaster : ModBase
     {
         public static GameObject NailMasterPrefab = null;
-        public static GameObject Sheo = null;
         public static GameObject Gate = null;
         public static GameObject Sly = null;
         public override List<(string, string)> GetPreloadNames()
@@ -24,7 +23,6 @@ namespace NailMasterMod
             return new List<(string, string)>
             {
                 ("GG_Nailmasters","Brothers/Oro"),
-                ("GG_Painter","Battle Scene/Sheo Boss"),
                 ("Fungus1_04","Battle Gate A")
             };
         }
@@ -32,9 +30,15 @@ namespace NailMasterMod
         {
             NailMasterPrefab = preloadedObjects["GG_Nailmasters"]["Brothers/Oro"];
             UnityEngine.Object.Destroy(NailMasterPrefab.GetComponent<ConstrainPosition>());
-            Sheo = preloadedObjects["GG_Painter"]["Battle Scene/Sheo Boss"];
             Gate = preloadedObjects["Fungus1_04"]["Battle Gate A"];
             
+        }
+        private static void TalkEnd()
+        {
+            HeroController.instance.RegainControl();
+            HeroController.instance.StartAnimationControl();
+            PlayerData.instance.disablePause = false;
+            HeroController.instance.PreventCastByDialogueEnd();
         }
 
         [FsmPatcher("Room_nailmaster_03", "NM Oro NPC", "Conversation Control")]
@@ -53,7 +57,8 @@ namespace NailMasterMod
                 .EditState("Bow")
                 .AppendAction(FSMHelper.CreateMethodAction(action =>
                 {
-                    action.Fsm.GameObject.LocateMyFSM("npc_control").SetState("Convo End");
+                    TalkEnd();
+                    action.Fsm.GameObject.LocateMyFSM("npc_control").enabled = false;
                 }))
                 .EditState("Decline Pause")
                 .AppendAction(FSMHelper.CreateMethodAction(
@@ -89,7 +94,8 @@ namespace NailMasterMod
                 .EditState("Bow")
                 .AppendAction(FSMHelper.CreateMethodAction(action =>
                 {
-                    action.Fsm.GameObject.LocateMyFSM("npc_control").SetState("Convo End");
+                    TalkEnd();
+                    action.Fsm.GameObject.LocateMyFSM("npc_control").enabled = false;
                 }))
                 .EditState("Yes")
                 .AppendAction(FSMHelper.CreateMethodAction(action =>

@@ -24,14 +24,16 @@ namespace NailMasterMod
             
             boss.SetActive(true);
 
+            boss.GetComponent<HealthManager>().hp = 1000;
+
             control.Fsm.CreatePatch()
                 .EditState("Init")
                 .FindAction<BoolTest>(x => x.isFalse = x.isTrue)
-                .FindTransition("ORO", t => t.ToFsmState = control.Fsm.GetState("Roar Antic"))
+                .DelayBindTransition("ORO", "Roar Antic")
                 .EditState("Cyclone")
                 .AppendAction(FSMHelper.CreateMethodAction(action =>
                 {
-                    FSMUtility.SetFloat(action.Fsm.FsmComponent, "Topslash Y", 8);
+                    FSMUtility.SetFloat(action.Fsm.FsmComponent, "Topslash Y", 12);
                 }))
                 .EditState("First Idle")
                 .ForEachFsmStateActions<SetFsmGameObject>(x => null)
@@ -44,9 +46,9 @@ namespace NailMasterMod
                 ;
             
             control.Fsm.SetState("Init");
-            FSMUtility.SetBool(control, "Oro", true);
+            FSMUtility.SetBool(control, "Oro", false);
             FSMUtility.SetBool(control, "Brothered", false);
-            FSMUtility.SetFloat(control, "Topslash Y", 8);
+            FSMUtility.SetFloat(control, "Topslash Y", 12);
         }
         IEnumerator Talk()
         {
@@ -57,6 +59,7 @@ namespace NailMasterMod
             PlayerData.instance.disablePause = true;
             HeroController.instance.RelinquishControl();
             HeroController.instance.StopAnimationControl();
+            HeroController.instance.GetComponent<tk2dSpriteAnimator>().Play("Idle");
             PlayMakerFSM.BroadcastEvent("NPC CONVO START");
             if (HeroController.instance.transform.position.x > transform.position.x)
             {

@@ -8,6 +8,6 @@
   "Guid": "28584bbd-bfed-4aad-b68d-c277ad24a200",
   "DefaultNamespace": "",
   "DependenciesDir": ".\\Dependencies\\",
-  "ModdingAPIVersion": "1.5.78.11833-67",
-  "WebDependencies": []
+  "WebDependencies": [],
+  "EnableNullable": false
 }

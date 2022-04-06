@@ -51,7 +51,7 @@ namespace NailMasterMod
             control.Fsm.SetState("Init");
             FSMUtility.SetBool(control, "Oro", true);
             FSMUtility.SetBool(control, "Brothered", false);
-            FSMUtility.SetFloat(control, "Topslash Y", 8);
+            FSMUtility.SetFloat(control, "Topslash Y", 12);
         }
         IEnumerator Talk()
         {
@@ -62,6 +62,7 @@ namespace NailMasterMod
             PlayerData.instance.disablePause = true;
             HeroController.instance.RelinquishControl();
             HeroController.instance.StopAnimationControl();
+            HeroController.instance.GetComponent<tk2dSpriteAnimator>().Play("Idle");
             PlayMakerFSM.BroadcastEvent("NPC CONVO START");
             if (HeroController.instance.transform.position.x > transform.position.x)
             {
